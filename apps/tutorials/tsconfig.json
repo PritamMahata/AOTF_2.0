@@ -1,0 +1,71 @@
+// apps/tutorials/tsconfig.json
+
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ✅ Core Next.js + TS settings */
+    "baseUrl": ".",
+    "target": "ES2017",  // ✅ Add this
+    "lib": ["dom", "dom.iterable", "esnext"],  // ✅ Add this - required for browser APIs
+    "module": "esnext",  // ✅ Add this
+    "moduleResolution": "bundler",  // ✅ Add this - Next.js 15 requirement
+    "jsx": "preserve",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,  // ✅ Add this
+
+    /* ✅ Type definitions */
+    "types": [
+      "node",
+      "next",  // ✅ Add this
+      "next/image-types/global"  // ✅ Add this
+    ],
+
+    /* ✅ Path aliases for local + monorepo packages */
+    "paths": {
+      "@/*": ["src/*"],
+
+      /* ⚠️ Remove these - redundant AND non-existent folders! */
+      // "@/components/*": ["src/components/*"],
+      // "@/hooks/*": ["src/hooks/*"],  // ❌ You don't have src/hooks/
+      // "@/types/*": ["src/types/*"],
+      // "@/utils/*": ["src/utils/*"],  // ❌ You don't have src/utils/
+
+      /* ✅ Shared monorepo imports */
+      "@aotf/config/*": ["../../packages/config/*"],
+      "@aotf/lib/*": ["../../packages/lib/src/*"],
+      "@aotf/models/*": ["../../packages/models/src/*"],
+      "@aotf/nextauth/*": ["../../packages/nextauth/*"],
+      "@aotf/types/*": ["../../packages/types/*"],
+      "@aotf/ui/*": ["../../packages/ui/src/*"],
+      "@aotf/ui/hooks/*": ["../../packages/ui/src/hooks/*"],
+      "@aotf/utils/*": ["../../packages/utils/src/*"],
+      "@aotf/scripts/*": ["../../scripts/*"]
+    },
+
+    /* ✅ Enable Next.js TypeScript plugin */
+    "plugins": [{ "name": "next" }]
+  },
+
+  /* ✅ File inclusion for Next.js + TypeScript project */
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+
+  /* ✅ Exclude unnecessary directories */
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next"
+  ]
+}

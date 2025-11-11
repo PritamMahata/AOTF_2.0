@@ -1,0 +1,8 @@
+{
+  "name": "@aotf/types",
+  "private": true,
+  "types": "./next-auth.d.ts",
+  "dependencies": {
+    "@aotf/models": "workspace:*"
+  }
+}

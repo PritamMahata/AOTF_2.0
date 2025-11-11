@@ -1,0 +1,60 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ✅ Base Setup */
+    "baseUrl": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+
+    /* ✅ Module Resolution */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2021",
+    "lib": ["ESNext", "DOM"],
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "allowJs": false,
+
+    /* ✅ Internal import paths */
+    "paths": {
+      "@aotf/config": ["../config/index.ts"],
+      "@aotf/config/*": ["../config/src/*"],
+      
+      "@aotf/lib": ["../lib/index.ts"],
+      "@aotf/lib/*": ["../lib/src/*"],
+      
+      "@aotf/models": ["../models/index.ts"],
+      "@aotf/models/*": ["../models/src/*"],
+      
+      "@aotf/nextauth": ["index.ts"],
+      "@aotf/nextauth/*": ["src/*"],
+      
+      "@aotf/types/*": ["../types/*"],
+      
+      "@aotf/utils": ["../utils/index.ts"],
+      "@aotf/utils/*": ["../utils/src/*"]
+    },
+
+    /* ✅ Strict Mode */
+    "strict": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true
+  },
+
+  "include": [
+    "src/**/*",
+    "index.ts",
+    "../types/src/next-auth.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

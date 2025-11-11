@@ -1,0 +1,26 @@
+{
+  "name": "@aotf/nextauth",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "type": "module",
+
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist"
+  },
+
+  "files": [
+    "dist"
+  ],
+
+  "dependencies": {
+    "@aotf/models": "workspace:*",
+    "@aotf/types": "workspace:*",
+    "next-auth": "*",
+    "next": "*",
+    "mongoose": "*"
+  },
+  "devDependencies": {}
+}

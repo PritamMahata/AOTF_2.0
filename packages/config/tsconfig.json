@@ -1,0 +1,41 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ---- Core Setup ---- */
+    "baseUrl": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+
+    /* ---- Module Resolution ---- */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2021",
+    "lib": ["ESNext"],
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "resolveJsonModule": true,
+
+    /* ---- Paths (allow internal imports if needed) ---- */
+    "paths": {
+      "@aotf/config": ["index.ts"],
+      "@aotf/config/*": ["src/*"]
+    },
+
+    /* ---- Strictness ---- */
+    "strict": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true
+  },
+
+  /* ---- Includes ---- */
+  "include": ["src/**/*", "index.ts"],
+
+  /* ---- Excludes ---- */
+  "exclude": ["node_modules", "dist"]
+}

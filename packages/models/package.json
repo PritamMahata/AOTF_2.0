@@ -1,0 +1,14 @@
+{
+  "name": "@aotf/models",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./*": "./src/*"
+  },
+  "dependencies": {
+    "mongoose": "^8.19.2"
+  }
+}

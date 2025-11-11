@@ -1,0 +1,71 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ✅ Core Next.js + TS settings */
+    "baseUrl": ".",
+    "target": "ES2021",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* ✅ Type definitions */
+    "types": [
+      "node",
+      "next",
+      "next/image-types/global"
+    ],
+
+    /* ✅ Path aliases */
+    "paths": {
+      "@/": ["./src/*"],
+      "@/*": ["./src/*"],
+
+      /* ✅ Shared monorepo imports */
+      "@aotf/config": ["../../packages/config/index.ts"],
+      "@aotf/config/*": ["../../packages/config/src/*"],
+
+      "@aotf/lib": ["../../packages/lib/index.ts"],
+      "@aotf/lib/*": ["../../packages/lib/src/*"],
+
+      "@aotf/models": ["../../packages/models/index.ts"],
+      "@aotf/models/*": ["../../packages/models/src/*"],
+
+      "@aotf/nextauth/*": ["../../packages/nextauth/*"],
+
+      "@aotf/types": ["../../packages/types/index.ts"],
+      "@aotf/types/*": ["../../packages/types/src/*"],
+
+      "@aotf/ui": ["../../packages/ui/src/index.ts"],
+      "@aotf/ui/*": ["../../packages/ui/src/*"],
+
+      "@aotf/utils": ["../../packages/utils/index.ts"],
+      "@aotf/utils/*": ["../../packages/utils/src/*"],
+
+      "@aotf/scripts/*": ["../../scripts/*"]
+    },
+
+    "plugins": [{ "name": "next" }]
+  },
+
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next"
+  ]
+}

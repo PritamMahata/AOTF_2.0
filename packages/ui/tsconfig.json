@@ -1,0 +1,60 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ---- Core Setup ---- */
+    "baseUrl": ".",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "noEmitOnError": true,
+
+    /* ---- Module Resolution ---- */
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2021",
+    "lib": ["DOM", "ESNext"],
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "resolveJsonModule": true,
+
+    /* ---- Paths (Internal Imports) ---- */
+    "paths": {
+      "@aotf/ui/*": ["src/*"],
+      "@aotf/ui/components/*": ["src/components/*"],
+      "@aotf/ui/hooks/*": ["src/hooks/*"],
+      "@aotf/ui/navigation/*": ["src/navigation/*"],
+      "@aotf/ui/ads/*": ["src/ads/*"],
+
+      "@aotf/lib": ["../lib/index.ts"],
+      "@aotf/lib/*": ["../lib/src/*"],
+
+      "@aotf/config": ["../config/index.ts"],
+      "@aotf/config/*": ["../config/*"],
+
+      "@aotf/models": ["../models/index.ts"],
+      "@aotf/models/*": ["../models/src/*"],
+
+      "@aotf/types": ["../types/index.ts"],
+      "@aotf/types/*": ["../types/src/*"],
+
+      "@aotf/utils": ["../utils/index.ts"],
+      "@aotf/utils/*": ["../utils/src/*"]
+    },
+
+    /* ---- TypeScript Strictness ---- */
+    "strict": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": true
+  },
+
+  /* ---- Included Files ---- */
+  "include": ["src/**/*"],
+
+  /* ---- Excluded Files ---- */
+  "exclude": ["node_modules", "dist", ".next"]
+}

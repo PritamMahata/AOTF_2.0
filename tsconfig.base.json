@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    /* Core TS options */
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "strict": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "types": ["node"],
+
+    /* Absolute imports for all AOTF shared packages */
+    "baseUrl": ".",
+    "paths": {
+      "@aotf/config": ["packages/config/index.ts"],
+      "@aotf/config/*": ["packages/config/src/*"],
+
+      "@aotf/lib": ["packages/lib/index.ts"],
+      "@aotf/lib/*": ["packages/lib/src/*"],
+
+      "@aotf/models": ["packages/models/index.ts"],
+      "@aotf/models/*": ["packages/models/src/*"],
+
+      "@aotf/nextauth": ["packages/nextauth/index.ts"],
+      "@aotf/nextauth/*": ["packages/nextauth/*"],
+
+      "@aotf/types/*": ["packages/types/*"],
+
+      "@aotf/ui": ["packages/ui/src/index.ts"],
+      "@aotf/ui/*": ["packages/ui/src/*"],
+      "@aotf/ui/hooks/*": ["packages/ui/src/hooks/*"],
+
+      "@aotf/utils": ["packages/utils/index.ts"],
+      "@aotf/utils/*": ["packages/utils/src/*"],
+
+      "@aotf/scripts/*": ["scripts/*"]
+    }
+  },
+
+  /* Included workspace files */
+  "include": ["apps/**/*", "packages/**/*", "scripts/**/*"],
+
+  "exclude": ["node_modules", "dist", ".next", "out"]
+}

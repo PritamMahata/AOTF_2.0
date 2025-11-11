@@ -1,0 +1,61 @@
+{
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    /* ✅ Core Next.js + TS settings */
+    "baseUrl": ".",
+    "target": "ES2017",  // ⚠️ Changed from ESNext - more stable for Next.js
+    "lib": ["dom", "dom.iterable", "esnext"],  // ✅ Add this - required for browser APIs
+    "module": "esnext",  // ⚠️ Changed from ESNext (lowercase is standard)
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "incremental": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* ✅ Type definitions */
+    "types": [
+      "node",
+      "next",
+      "next/image-types/global"
+    ],
+
+    /* ✅ Path aliases for local + monorepo packages */
+    "paths": {
+      "@/*": ["src/*"],
+
+      "@aotf/config/*": ["../../packages/config/*"],
+      "@aotf/lib/*": ["../../packages/lib/src/*"],
+      "@aotf/models/*": ["../../packages/models/src/*"],
+      "@aotf/nextauth/*": ["../../packages/nextauth/*"],
+      "@aotf/types/*": ["../../packages/types/*"],
+      "@aotf/ui/*": ["../../packages/ui/src/*"],
+      "@aotf/ui/hooks/*": ["../../packages/ui/src/hooks/*"],
+      "@aotf/utils/*": ["../../packages/utils/src/*"],
+      "@aotf/scripts/*": ["../../scripts/*"]
+    },
+
+    /* ✅ Enable Next.js TypeScript plugin */
+    "plugins": [{ "name": "next" }]
+  },
+
+  /* ✅ File inclusion for Next.js + TypeScript project */
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next"
+  ]
+}
