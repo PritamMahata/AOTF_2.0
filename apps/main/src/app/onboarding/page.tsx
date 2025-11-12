@@ -4,29 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NormalAppHeader } from "@aotf/ui/navigation/app-header";
 
-// Import components
-import { ProgressIndicator } from "@/components/onboarding/progress-indicator";
+// Import only service selection component
 import { ServiceSelection } from "@/components/onboarding/service-selection";
-import { RoleSelection } from "@/components/onboarding/role-selection";
-import { FreelancerRoleSelection } from "@/components/onboarding/freelancer-role-selection";
-import { BasicDetailsForm } from "@/components/onboarding/basic-details-form";
-import { FreelancerDetailsForm } from "@/components/onboarding/freelancer-details-form";
-import { ClientDetailsForm } from "@/components/onboarding/client-details-form";
-import { PreferencesForm } from "@/components/onboarding/preferences-form";
-import { TermsStep } from "@/components/onboarding/terms-step";
-import { PaymentStep } from "@/components/onboarding/payment-step";
-import { CompletionStep } from "@/components/onboarding/completion-step";
 
 // Import hooks
-import { useOnboarding } from "@aotf/ui/hooks/use-onboarding";
-import { EmailVerificationStep } from "@/components/onboarding/email-verification-step";
+import { useOnboarding } from "@/hooks/use-onboarding";
 
 export default function OnboardingPage() {
   const router = useRouter();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   const [userDataLoaded, setUserDataLoaded] = useState(false);
-  const tutorialsUrl = process.env.NEXT_PUBLIC_TUTORIALS_APP_URL;
-  const jobsUrl = process.env.NEXT_PUBLIC_JOBS_APP_URL;
+  const tutorialsUrl = process.env.NEXT_PUBLIC_TUTORIALS_APP_URL || "http://localhost:3002";
+  const jobsUrl = process.env.NEXT_PUBLIC_JOBS_APP_URL || "http://localhost:3003";
 
   // Initialize onboarding state early so formData is available to effects below
   const {
@@ -156,182 +145,15 @@ export default function OnboardingPage() {
       <NormalAppHeader />
 
       <main className="container mx-auto px-4 py-20">
-        {" "}
         <div className="max-w-2xl mx-auto">
-          {/* Progress Indicator */}
-          {currentStep !== "service" &&
-            currentStep !== "role" &&
-            currentStep !== "freelancerRole" && (
-              <ProgressIndicator
-                stepNumber={stepNumber}
-                totalSteps={totalSteps}
-                stepLabel={stepLabel}
-                progressPct={progressPct}
-              />
-            )}
-          {/* Service Selection Step */}
+          {/* Service Selection Step - Main app only handles service selection */}
+          {/* After selection, user is redirected to tutorials/ or jobs/ app to complete onboarding */}
           {currentStep === "service" && (
             <ServiceSelection
               onServiceSelect={handleServiceSelect}
               onCancel={() => {
                 router.push("/");
               }}
-            />
-          )}          {/* Role Selection Step for Tutorial */}
-          {currentStep === "role" && (
-            <RoleSelection
-              onRoleSelect={handleRoleSelect}
-              onBack={handleBack}
-            />
-          )}
-          {/* Freelancer Role Selection Step */}
-          {currentStep === "freelancerRole" && (
-            <FreelancerRoleSelection
-              onRoleSelect={handleRoleSelect}
-              onBack={handleBack}
-            />
-          )}
-          {/* Basic Details Step for Guardian/Teacher */}
-          {currentStep === "details" &&
-            (formData.role === "guardian" || formData.role === "teacher") && (
-              <BasicDetailsForm
-                formData={formData}
-                onFormDataChange={updateFormData}
-                onNext={handleNext}
-                onBack={handleBack}
-              />
-            )}
-          {/* Freelancer Details Form */}
-          {currentStep === "details" && formData.role === "freelancer" && (
-            <FreelancerDetailsForm
-              formData={{
-                phone: formData.phone || "",
-                whatsappNumber: formData.whatsappNumber || "",
-                isWhatsappSameAsPhone: formData.isWhatsappSameAsPhone || false,
-                address: formData.address || "",
-                experience: formData.experience || "",
-                experienceLevel: formData.experienceLevel || "",
-                maxQualification: formData.maxQualification || "",
-                schoolBoard: formData.schoolBoard || "",
-              }}
-              onChange={(data) => updateFormData(data)}
-              onNext={handleNext}
-              onBack={handleBack}
-              isLoading={isLoading}
-            />
-          )}
-          {/* Client Details Form */}
-          {currentStep === "details" && formData.role === "client" && (
-            <ClientDetailsForm
-              formData={{
-                phone: formData.phone || "",
-                whatsappNumber: formData.whatsappNumber || "",
-                companyName: formData.companyName || "",
-                companyWebsite: formData.companyWebsite || "",
-                address: formData.address || "",
-                industry: formData.industry || "",
-              }}
-              onChange={(data) => updateFormData(data)}
-              onNext={handleNext}
-              onBack={handleBack}
-              isLoading={isLoading}
-            />
-          )}
-          {/* Email Verification Step */}
-          {currentStep === "verify" && (
-            <EmailVerificationStep
-              email={formData.email}
-              onVerified={async () => {
-                updateFormData({ emailVerified: true });
-                await handleNext();
-              }}
-              onBack={handleBack}
-            />
-          )}
-          {/* Preferences Step (teachers only) */}
-          {currentStep === "preferences" && formData.role === "teacher" && (
-            <PreferencesForm
-              formData={formData}
-              onFormDataChange={updateFormData}
-              onNext={handleNext}
-              onBack={handleBack}
-              isLoading={isLoading}
-              error={error}
-            />
-          )}{" "}
-          {/* Terms Step (teachers and freelancers) */}
-          {currentStep === "terms" && formData.role === "teacher" && (
-            <TermsStep
-              selectedTerm={selectedTerm}
-              termsAgreed={termsAgreed}
-              isLoading={isLoading}
-              error={error}
-              userName={formData.name}
-              onTermSelect={setSelectedTerm}
-              onTermsAgreed={setTermsAgreed}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-          {currentStep === "terms" && formData.role === "freelancer" && (
-            <TermsStep
-              selectedTerm={selectedTerm}
-              termsAgreed={termsAgreed}
-              isLoading={isLoading}
-              error={error}
-              userName={formData.name}
-              onTermSelect={setSelectedTerm}
-              onTermsAgreed={setTermsAgreed}
-              onNext={handleNext}
-              onBack={handleBack}
-            />
-          )}
-          {/* Payment Step (teachers only) */}
-          {currentStep === "payment" && formData.role === "teacher" && (
-            <div>
-              <PaymentStep
-                teacherId={teacherId}
-                selectedTerm={selectedTerm}
-                isLoading={isLoading}
-                scriptLoaded={scriptLoaded}
-                isDevelopment={isDevelopment}
-                error={error}
-                getPaymentTypeDescription={getPaymentTypeDescription}
-                onInitiatePayment={initiatePayment}
-                onInitiateTestPayment={initiateTestPayment}
-                onBack={handleBack}
-              />
-            </div>
-          )}
-          {/* Payment Step (freelancers only) */}
-          {currentStep === "payment" && formData.role === "freelancer" && (
-            <div>
-              <PaymentStep
-                teacherId={freelancerId}
-                selectedTerm={selectedTerm}
-                isLoading={isLoading}
-                scriptLoaded={scriptLoaded}
-                isDevelopment={isDevelopment}
-                error={error}
-                getPaymentTypeDescription={() =>
-                  "Freelancer Registration Fee (₹99)"
-                }
-                onInitiatePayment={initiateFreelancerPayment}
-                onInitiateTestPayment={initiateFreelancerTestPayment}
-                onBack={handleBack}
-              />
-            </div>
-          )}
-          {/* Completion Step */}
-          {currentStep === "complete" && (
-            <CompletionStep
-              userRole={
-                formData.role as
-                  | "guardian"
-                  | "teacher"
-                  | "freelancer"
-                  | "client"
-              }
             />
           )}
         </div>
