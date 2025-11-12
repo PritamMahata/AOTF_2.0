@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -31,6 +31,13 @@ export default function TutorialsLoginPage() {
     }
   }, [searchParams]);
 
+  const handleSignupRedirect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Navigate to main app signup page
+    // Using window.location for cross-domain navigation
+    window.location.href = `${mainAppUrl}/signup`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -56,9 +63,11 @@ export default function TutorialsLoginPage() {
       }
 
       if (result?.ok) {
-        // Fetch user session to check onboarding status
-        const response = await fetch("/api/auth/session");
-        const session = await response.json();
+        // Give a small delay to ensure session is set
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Use NextAuth's getSession to ensure proper session retrieval
+        const session = await getSession();
 
         if (session?.user) {
           // Check if onboarding is completed
@@ -79,8 +88,28 @@ export default function TutorialsLoginPage() {
             }
           }
         } else {
-          setError("Failed to get session information");
-          setIsLoading(false);
+          // Session not available yet, try to refresh
+          console.log("Session not available, refreshing...");
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          const retrySession = await getSession();
+          
+          if (retrySession?.user) {
+            if (!retrySession.user.onboardingCompleted) {
+              router.push("/onboarding");
+            } else {
+              const userType = retrySession.user.userType;
+              if (userType === "teacher") {
+                router.push("/teacher");
+              } else if (userType === "guardian") {
+                router.push("/feed");
+              } else {
+                router.push("/feed");
+              }
+            }
+          } else {
+            // If still no session, force a page reload to trigger session sync
+            window.location.href = "/feed";
+          }
         }
       }
     } catch (err) {
@@ -177,12 +206,13 @@ export default function TutorialsLoginPage() {
             </Link>
             <div className="text-sm text-gray-600">
               Don't have an account?{" "}
-              <a
-                href={`${mainAppUrl}/signup`}
-                className="text-blue-600 hover:text-blue-700 font-medium"
+              <button
+                type="button"
+                onClick={handleSignupRedirect}
+                className="text-blue-600 hover:text-blue-700 font-medium underline bg-transparent border-none cursor-pointer"
               >
                 Sign up on AOTF
-              </a>
+              </button>
             </div>
           </div>
         </div>

@@ -76,9 +76,11 @@ export default function TutorialsOnboardingPage() {
           if (data.user.userType === "teacher") {
             router.push("/teacher");
           } else if (data.user.userType === "guardian") {
-            router.push("/guardian");
+            router.push("/feed");
           }
           return;
+        } else if (data.user.onboardingCompleted !== true && data.user?.userType){
+          router.push("/onboarding");
         }
 
         // If onboarding is not complete, stay on onboarding page

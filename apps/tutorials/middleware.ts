@@ -145,13 +145,16 @@ export async function middleware(request: NextRequest) {
       
       // If user hasn't completed onboarding, redirect to onboarding
       // (unless already on onboarding page)
-      if (!payload.onboardingCompleted && !isOnboardingRoute) {
+      // Check for both undefined and false values
+      const hasCompletedOnboarding = payload.onboardingCompleted === true;
+      
+      if (!hasCompletedOnboarding && !isOnboardingRoute) {
         const onboardingUrl = new URL('/onboarding', request.url);
         return NextResponse.redirect(onboardingUrl);
       }
 
       // If user completed onboarding but is on onboarding page, redirect to appropriate dashboard
-      if (payload.onboardingCompleted && isOnboardingRoute) {
+      if (hasCompletedOnboarding && isOnboardingRoute) {
         const userType = payload.userType;
         const dashboardUrl = userType === 'teacher' 
           ? new URL('/teacher', request.url)

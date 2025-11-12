@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@aotf/ui/components/button";
 import { Card, CardContent } from "@aotf/ui/components/card";
 import { Loader2 } from "lucide-react";
-import ApplicationsManagement from "@/app/(user)/(authenticated)/teacher/applications/page";
+import ApplicationsManagement from "@/app/(authenticated)/teacher/applications/page";
 
 // Dashboard data types
 interface DashboardStats {

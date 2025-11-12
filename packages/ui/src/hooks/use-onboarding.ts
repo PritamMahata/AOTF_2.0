@@ -178,7 +178,7 @@ export function useOnboarding(appType: "tutorials" | "jobs" = "tutorials") {
       formData.role === "teacher"
         ? "/teacher"
         : formData.role === "guardian"
-        ? "/guardian"
+        ? "/feed"
         : formData.role === "freelancer"
         ? "/freelancer"
         : formData.role === "client"

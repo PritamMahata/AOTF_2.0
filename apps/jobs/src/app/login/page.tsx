@@ -31,6 +31,12 @@ export default function JobsLoginPage() {
     }
   }, [searchParams]);
 
+  const handleSignupRedirect = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Navigate to main app signup page
+    window.location.href = `${mainAppUrl}/signup`;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -179,12 +185,13 @@ export default function JobsLoginPage() {
 
           {/* Signup Link */}
           <div className="text-center">
-            <a
-              href={`${mainAppUrl}/signup`}
-              className="text-sm text-green-600 hover:text-green-700 font-medium hover:underline"
+            <button
+              type="button"
+              onClick={handleSignupRedirect}
+              className="text-sm text-green-600 hover:text-green-700 font-medium hover:underline bg-transparent border-none cursor-pointer"
             >
               Sign up on AOTF
-            </a>
+            </button>
           </div>
         </div>
 

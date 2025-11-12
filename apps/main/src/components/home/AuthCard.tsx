@@ -143,16 +143,15 @@ export function AuthCard({ onLogin }: AuthCardProps) {
       const data = await response.json();
 
       if (data.success) {
-        // Store email for choose-path page
+        // Store email for choose-path page (using POST navigation)
         if (data.user?.email) {
-          localStorage.setItem("signup_email", data.user.email);
+          sessionStorage.setItem("signup_email", data.user.email);
+          sessionStorage.setItem("signup_name", data.user.name || "");
         }
 
-        // Redirect to choose-path page instead of creating a session
-        // User will choose which platform to continue to (Tutorials or Jobs)
-        const email = data.user?.email;
-        const choosePathUrl = `/choose-path${email ? `?email=${encodeURIComponent(email)}` : ''}`;
-        window.location.href = choosePathUrl;
+        // Navigate to choose-path page
+        // Data is now passed via sessionStorage instead of URL params for better security
+        window.location.href = "/choose-path";
         return;
       }
 

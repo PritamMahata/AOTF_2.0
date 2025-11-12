@@ -23,16 +23,23 @@ export default function ChoosePathPage() {
   const jobsAppUrl = process.env.NEXT_PUBLIC_JOBS_APP_URL || "https://jobs.aotf.in";
 
   useEffect(() => {
-    // Get email from URL params (passed from signup)
-    const emailParam = searchParams.get("email");
-    if (emailParam) {
-      setEmail(emailParam);
+    // Get email from sessionStorage (passed securely after signup)
+    const signupEmail = sessionStorage.getItem("signup_email");
+    if (signupEmail) {
+      setEmail(signupEmail);
+      // Don't remove yet - will be used when redirecting to tutorials/jobs
     } else {
-      // If no email, check localStorage (fallback)
-      const signupEmail = localStorage.getItem("signup_email");
-      if (signupEmail) {
-        setEmail(signupEmail);
-        localStorage.removeItem("signup_email"); // Clean up
+      // Fallback: check URL params (for backward compatibility)
+      const emailParam = searchParams.get("email");
+      if (emailParam) {
+        setEmail(emailParam);
+      } else {
+        // Last fallback: check localStorage
+        const localEmail = localStorage.getItem("signup_email");
+        if (localEmail) {
+          setEmail(localEmail);
+          localStorage.removeItem("signup_email"); // Clean up
+        }
       }
     }
   }, [searchParams]);
@@ -40,12 +47,18 @@ export default function ChoosePathPage() {
   const handleTutorialsClick = () => {
     // Redirect to Tutorials app login with email pre-filled
     const loginUrl = `${tutorialsAppUrl}/login${email ? `?email=${encodeURIComponent(email)}` : ""}`;
+    // Clean up session storage after redirecting
+    sessionStorage.removeItem("signup_email");
+    sessionStorage.removeItem("signup_name");
     window.location.href = loginUrl;
   };
 
   const handleJobsClick = () => {
     // Redirect to Jobs app login with email pre-filled
     const loginUrl = `${jobsAppUrl}/login${email ? `?email=${encodeURIComponent(email)}` : ""}`;
+    // Clean up session storage after redirecting
+    sessionStorage.removeItem("signup_email");
+    sessionStorage.removeItem("signup_name");
     window.location.href = loginUrl;
   };
 
